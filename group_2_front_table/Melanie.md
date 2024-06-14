@@ -1,1 +1,1 @@
-I am Melanie and I like chocolate
+I am Melanie and I like chocolate and cake
