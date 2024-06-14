@@ -1,0 +1,74 @@
+---
+title: "Reprod"
+author: "Kristian Larsen"
+date: "2024-06-13"
+output: html_document
+editor_options: 
+  chunk_output_type: console
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+library(ggplot2)
+library(dplyr)
+
+```
+
+Reproduce the result
+```{r}
+
+
+# Read the data
+data <- read.csv('/Users/kristianlarsen/Desktop/Reprod_course.csv', sep=',') 
+
+# Convert columns to numeric
+data$temperature..Celsius. <- as.numeric(data$temperature..Celsius.)
+data$ice.cream....scoops. <- as.numeric(data$ice.cream....scoops.)
+
+# Remove data points where temperature or scoops are less than 0
+data <- data %>%
+  filter(temperature..Celsius. >= 0, ice.cream....scoops. >= 0)
+
+# Fit the linear model with intercept forced through zero
+model <- lm(ice.cream....scoops. ~ 0 + temperature..Celsius., data = data)  # The 0 + forces the intercept through zero
+summary(model)
+
+# Predict the number of scoops at 40 degrees Celsius
+new_data <- data.frame(temperature..Celsius. = 40)
+predicted_scoops <- predict(model, newdata = new_data)
+
+# Print the predicted scoops
+cat("The predicted number of ice cream scoops at 40 degrees Celsius is:", predicted_scoops, "\n")
+
+# Create a new data frame for the regression line
+regression_line <- data.frame(
+  temperature..Celsius. = seq(min(data$temperature..Celsius.), max(data$temperature..Celsius.), length.out = 100)
+)
+regression_line$ice.cream....scoops. <- predict(model, newdata = regression_line)
+
+# Plot the data with the regression line
+p <- ggplot(data, aes(x = temperature..Celsius., y = ice.cream....scoops.)) +
+  geom_point(color = "blue") +
+  geom_line(data = regression_line, aes(x = temperature..Celsius., y = ice.cream....scoops.), color = "red") +
+  labs(
+    title = "Ice Cream Scoops vs Temperature (Intercept Forced Through Zero)",
+    x = "Temperature (Celsius)",
+    y = "Ice Cream Scoops"
+  ) +
+  theme_minimal(base_size = 15) +
+  theme(
+    plot.title = element_text(hjust = 0.5, face = "bold"),
+    axis.title = element_text(face = "bold")
+  )
+
+# Print the plot
+print(p)
+
+
+
+```
+
+
+
+
+
