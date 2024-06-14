@@ -52,3 +52,7 @@ Create an [issue](https://github.com/Donders-Institute/git-workshop/issues) for 
 **Working together** while not sitting next to each other (and possibly in different time zones) requires good communication. You can discuss the issue online: every comment that is added to the issue will result in an email. Other repository (aka team) members can also read along.
 
 More on using Git and GitHub --> https://github.com/CPernet/Quicksheets/tree/main/git_github 
+
+#  Exercise 5
+
+Make a branch of this repository and edit a file and merge the branch back into main
